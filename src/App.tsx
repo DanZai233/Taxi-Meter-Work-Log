@@ -86,29 +86,91 @@ export default function App() {
     )}>
       
       {/* Immersive Background */}
-      <div className={cn("immersive-env", isImmersive ? "opacity-100" : "opacity-0 pointer-events-none", meter.status === 'DRIVING' ? 'driving' : '')}>
-        <div className="sky"><div className="city-skyline"></div></div>
-        <div className="passing-lights">
-          <div className="passing-light"></div>
-          <div className="passing-light" style={{ animationDelay: '1s', left: '100%', transform: 'scaleX(-1)' }}></div>
+      <div className={cn(
+        "immersive-env",
+        isImmersive ? "opacity-100" : "opacity-0 pointer-events-none",
+        meter.status === 'DRIVING' && 'driving',
+        meter.status === 'WAITING' && 'waiting',
+        meter.status === 'IDLE' && 'idle'
+      )}>
+        <div className="sky">
+          <div className="horizon-glow"></div>
+          <div className="moon-glow"></div>
+          <div className="city-lights"></div>
+          <div className="city-skyline city-skyline-back"></div>
+          <div className="city-skyline city-skyline-front"></div>
         </div>
-        <div className="ground-plane"><div className="road"><div className="road-lines"></div></div></div>
+        <div className="passing-lights">
+          <div className="passing-light passing-light-left"></div>
+          <div className="passing-light passing-light-right"></div>
+          <div className="streetlights streetlights-left"><span></span><span></span><span></span><span></span></div>
+          <div className="streetlights streetlights-right"><span></span><span></span><span></span><span></span></div>
+          <div className="traffic-car traffic-car-near">
+            <span className="car-body"></span><span className="tail-light"></span><span className="tail-light"></span>
+          </div>
+          <div className="traffic-car traffic-car-far">
+            <span className="car-body"></span><span className="tail-light"></span><span className="tail-light"></span>
+          </div>
+          <div className="traffic-car traffic-car-oncoming">
+            <span className="car-body"></span><span className="head-light"></span><span className="head-light"></span>
+          </div>
+          <div className="vehicle-lights vehicle-lights-oncoming"><span></span><span></span></div>
+          <div className="vehicle-lights vehicle-lights-away"><span></span><span></span></div>
+        </div>
+        <div className="ground-plane">
+          <div className="road">
+            <div className="road-texture"></div>
+            <div className="road-edge road-edge-left"></div>
+            <div className="road-edge road-edge-right"></div>
+            <div className="road-lines road-lines-left"></div>
+            <div className="road-lines road-lines-center"></div>
+            <div className="road-lines road-lines-right"></div>
+            <div className="road-reflectors road-reflectors-left"></div>
+            <div className="road-reflectors road-reflectors-right"></div>
+          </div>
+          <div className="guardrail guardrail-left"></div>
+          <div className="guardrail guardrail-right"></div>
+        </div>
         <div className="car-interior-overlay"></div>
         
         <div className="car-interior-frame">
+          <div className="windshield">
+            <div className="windshield-sheen"></div>
+            <div className="glass-dust"></div>
+          </div>
           <div className="car-roof"></div>
+          <div className="roof-console"><span></span><span></span></div>
+          <div className="rearview-mirror"><div className="mirror-glass"></div></div>
           <div className="car-pillar-left"></div>
           <div className="car-pillar-right"></div>
           
-          <div className="car-dashboard"></div>
-          <div className="car-center-console"></div>
+          <div className="car-dashboard">
+            <div className="dash-topline"></div>
+            <div className="dash-vent dash-vent-left"></div>
+            <div className="dash-vent dash-vent-right"></div>
+            <div className="instrument-cluster"><span></span><span></span><span></span></div>
+            <div className="steering-wheel"></div>
+          </div>
+          <div className="car-center-console">
+            <div className="console-screen"></div>
+            <div className="console-buttons"><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div className="side-door side-door-left"></div>
+          <div className="side-door side-door-right"></div>
           
           <div className="front-seat-left">
+            <div className="seat-shoulder"></div>
+            <div className="seat-stitching"></div>
+            <div className="seatbelt seatbelt-left"></div>
             <div className="headrest"><div className="headrest-poles"><div className="headrest-pole"></div><div className="headrest-pole"></div></div></div>
           </div>
           <div className="front-seat-right">
+            <div className="seat-shoulder"></div>
+            <div className="seat-stitching"></div>
+            <div className="seatbelt seatbelt-right"></div>
             <div className="headrest"><div className="headrest-poles"><div className="headrest-pole"></div><div className="headrest-pole"></div></div></div>
           </div>
+          <div className="rear-seat-foreground"><span></span><span></span></div>
         </div>
         
         {isSmoking && (
@@ -151,7 +213,7 @@ export default function App() {
       {/* Main Container */}
       <div className={cn(
         "w-full max-w-5xl flex-1 flex flex-col shadow-2xl bg-zinc-950 rounded-xl overflow-hidden z-30 transition-all duration-1000 ease-in-out origin-center",
-        isImmersive ? "immersive-meter-container h-auto max-w-4xl border-none" : "border-[12px] border-zinc-900 relative"
+        isImmersive ? cn("immersive-meter-container h-auto max-w-4xl border-none", meter.status === 'DRIVING' && "meter-driving") : "border-[12px] border-zinc-900 relative"
       )}>
         
         {/* Header */}
@@ -220,7 +282,7 @@ export default function App() {
 
       {/* Floating Controls for Immersive Mode */}
       {isImmersive && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-[500px] glass-panel p-3 rounded-xl shadow-2xl flex flex-col gap-2 opacity-50 hover:opacity-100 transition-opacity duration-300">
+        <div className="fixed bottom-2 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-[440px] glass-panel p-2 rounded-lg shadow-2xl flex flex-col gap-2 opacity-20 hover:opacity-100 transition-opacity duration-300 immersive-controls">
            <Controls
               status={meter.status}
               onStart={meter.start}
