@@ -176,11 +176,18 @@ export default function App() {
         {isSmoking && (
           <div className="smoke-container">
             {/* Glowing Ember */}
-            <div className="absolute bottom-[20vh] left-[45%] w-2 h-2 rounded-full bg-red-500 shadow-[0_0_15px_5px_rgba(239,68,68,0.6)] animate-pulse z-20"></div>
+            <div className="cigarette-stick"></div>
+            <div className="cigarette-ember"></div>
+            <div className="smoke-haze"></div>
+            <div className="smoke-thread smoke-thread-1"></div>
+            <div className="smoke-thread smoke-thread-2"></div>
+            <div className="smoke-thread smoke-thread-3"></div>
+            <div className="smoke-thread smoke-thread-4"></div>
             
             <div className="smoke-particle" style={{ animationDelay: '0s' }}></div>
             <div className="smoke-particle" style={{ animationDelay: '2.5s', left: '40%' }}></div>
             <div className="smoke-particle" style={{ animationDelay: '5s', left: '60%' }}></div>
+            <div className="smoke-particle smoke-particle-wide" style={{ animationDelay: '1.4s', left: '51%' }}></div>
           </div>
         )}
       </div>

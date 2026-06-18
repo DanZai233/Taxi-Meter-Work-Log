@@ -663,11 +663,11 @@ body {
 
 .roof-console {
   position: absolute;
-  top: 2.8vh;
+  top: 2.1vh;
   left: 50%;
-  z-index: 17;
+  z-index: 16;
   width: 10rem;
-  height: 3.4rem;
+  height: 3rem;
   transform: translateX(-50%);
   border-radius: 0 0 18px 18px;
   background: linear-gradient(180deg, #1c1a19, #080808);
@@ -696,12 +696,12 @@ body {
 
 .rearview-mirror {
   position: absolute;
-  top: 8.5vh;
+  top: 9.7vh;
   left: 50%;
-  z-index: 18;
-  width: min(20vw, 245px);
-  min-width: 170px;
-  height: 7.2vh;
+  z-index: 35;
+  width: min(21vw, 260px);
+  min-width: 182px;
+  height: 7.8vh;
   transform: translateX(-50%) rotateX(-5deg);
   border-radius: 42% 42% 48% 48% / 36% 36% 56% 56%;
   background: linear-gradient(180deg, #242322, #090909 58%, #020202);
@@ -714,13 +714,28 @@ body {
 .rearview-mirror::before {
   content: '';
   position: absolute;
-  top: -4.6vh;
+  top: -5.7vh;
   left: 50%;
-  width: 1.1rem;
-  height: 4.8vh;
+  z-index: -1;
+  width: 1rem;
+  height: 5.9vh;
   transform: translateX(-50%);
   background: linear-gradient(90deg, #050505, #262423, #050505);
-  border-radius: 8px 8px 2px 2px;
+  border-radius: 8px;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.72);
+}
+
+.rearview-mirror::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -0.7vh;
+  width: 72%;
+  height: 1.2vh;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.75), transparent 72%);
+  opacity: 0.78;
 }
 
 .mirror-glass {
@@ -1191,27 +1206,133 @@ body {
 
 .smoke-container {
   position: absolute;
-  bottom: -20vh;
+  bottom: 0;
   left: 50%;
-  z-index: 24;
+  z-index: 33;
   width: 100vw;
-  height: 120vh;
+  height: 100vh;
   transform: translateX(-50%);
   pointer-events: none;
+  overflow: hidden;
+  mix-blend-mode: screen;
+}
+
+.cigarette-ember {
+  position: absolute;
+  bottom: 24.7vh;
+  left: calc(43.5% + 1.35rem);
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff1a8 0 12%, #ff7b28 24%, #e11d1d 52%, transparent 72%);
+  box-shadow:
+    0 0 12px 5px rgba(239, 68, 68, 0.45),
+    0 0 28px 11px rgba(249, 115, 22, 0.22);
+  animation: emberPulse 1.9s ease-in-out infinite;
+}
+
+.cigarette-stick {
+  position: absolute;
+  bottom: 24.2vh;
+  left: 43.2%;
+  width: 2.2rem;
+  height: 0.32rem;
+  transform: rotate(-8deg);
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, rgba(244, 236, 214, 0.92) 0 58%, rgba(195, 181, 154, 0.8) 58% 74%, rgba(58, 54, 48, 0.82) 74% 100%);
+  box-shadow:
+    0 0 8px rgba(255, 255, 255, 0.12),
+    0 7px 13px rgba(0, 0, 0, 0.42);
+}
+
+.cigarette-stick::before {
+  content: '';
+  position: absolute;
+  left: -0.55rem;
+  top: 50%;
+  width: 0.62rem;
+  height: 0.18rem;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: rgba(42, 39, 36, 0.72);
+}
+
+.smoke-haze {
+  position: absolute;
+  left: 22%;
+  right: 18%;
+  bottom: 22vh;
+  height: 54vh;
+  opacity: 0.54;
+  background:
+    radial-gradient(ellipse at 33% 86%, rgba(255, 255, 255, 0.11), transparent 34%),
+    radial-gradient(ellipse at 50% 58%, rgba(212, 222, 226, 0.09), transparent 42%),
+    radial-gradient(ellipse at 68% 30%, rgba(255, 255, 255, 0.07), transparent 38%);
+  filter: blur(16px);
+  animation: cabinSmokeBreath 8.5s ease-in-out infinite;
+}
+
+.smoke-thread {
+  position: absolute;
+  bottom: 24vh;
+  left: 44%;
+  width: 5rem;
+  height: 48vh;
+  opacity: 0;
+  transform-origin: bottom center;
+  filter: blur(1.6px);
+  background:
+    radial-gradient(ellipse at 43% 78%, rgba(255, 255, 255, 0.2) 0 2%, transparent 8%),
+    radial-gradient(ellipse at 57% 52%, rgba(255, 255, 255, 0.14) 0 2%, transparent 9%),
+    radial-gradient(ellipse at 41% 26%, rgba(255, 255, 255, 0.12) 0 2%, transparent 10%),
+    linear-gradient(168deg, transparent 0 12%, rgba(255, 255, 255, 0.15) 18%, transparent 29%, rgba(255, 255, 255, 0.12) 42%, transparent 58%, rgba(255, 255, 255, 0.08) 72%, transparent 100%);
+  mask-image: linear-gradient(to top, transparent 0, black 15%, black 74%, transparent 100%);
+  animation: smokeThreadRise 6.4s ease-in-out infinite;
+}
+
+.smoke-thread-2 {
+  left: 47%;
+  height: 56vh;
+  animation-delay: 1.2s;
+  transform: rotate(10deg);
+}
+
+.smoke-thread-3 {
+  left: 39%;
+  height: 42vh;
+  animation-delay: 2.3s;
+  transform: rotate(-12deg);
+}
+
+.smoke-thread-4 {
+  left: 51%;
+  height: 50vh;
+  animation-delay: 3.5s;
+  transform: rotate(18deg);
 }
 
 .smoke-particle {
   position: absolute;
-  bottom: 0;
+  bottom: 18vh;
   left: 50%;
-  width: 20vw;
-  height: 20vw;
+  width: 22vw;
+  height: 22vw;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.045) 0%, transparent 60%);
-  filter: blur(15px);
-  animation: floatSmoke 8s infinite linear;
+  background:
+    radial-gradient(circle at 40% 42%, rgba(255, 255, 255, 0.13) 0 8%, transparent 44%),
+    radial-gradient(circle at 68% 62%, rgba(207, 218, 221, 0.1) 0 7%, transparent 42%);
+  filter: blur(19px);
+  animation: floatSmoke 9s infinite linear;
   opacity: 0;
   will-change: transform, opacity;
+}
+
+.smoke-particle-wide {
+  width: 38vw;
+  height: 26vw;
+  filter: blur(28px);
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.1) 0 12%, transparent 58%);
 }
 
 @keyframes moveSkyline {
@@ -1291,11 +1412,44 @@ body {
   70% { transform: translateX(-50%) translateY(-50%) scale(0.28) perspective(900px) rotateX(17deg) translateY(1px); }
 }
 
+@keyframes emberPulse {
+  0%, 100% { transform: scale(0.86); opacity: 0.72; }
+  42% { transform: scale(1.18); opacity: 1; }
+  68% { transform: scale(0.96); opacity: 0.82; }
+}
+
+@keyframes cabinSmokeBreath {
+  0%, 100% { transform: translate3d(-1vw, 1vh, 0) scale(0.96); opacity: 0.38; }
+  45% { transform: translate3d(2vw, -2vh, 0) scale(1.08); opacity: 0.62; }
+  72% { transform: translate3d(0.4vw, -4vh, 0) scale(1.15); opacity: 0.5; }
+}
+
+@keyframes smokeThreadRise {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-8deg) scaleY(0.78);
+    opacity: 0;
+  }
+  14% {
+    opacity: 0.72;
+  }
+  48% {
+    transform: translate3d(2.4vw, -18vh, 0) rotate(10deg) scaleY(1.12);
+    opacity: 0.58;
+  }
+  78% {
+    opacity: 0.32;
+  }
+  100% {
+    transform: translate3d(-1.6vw, -43vh, 0) rotate(-16deg) scaleY(1.35);
+    opacity: 0;
+  }
+}
+
 @keyframes floatSmoke {
-  0% { transform: translate(-50%, 0) scale(1) rotate(0deg); opacity: 0; }
-  10% { opacity: 0.75; }
-  70% { opacity: 0.43; }
-  100% { transform: translate(-50%, -100vh) scale(3) rotate(90deg); opacity: 0; }
+  0% { transform: translate(-50%, 0) scale(0.68) rotate(0deg); opacity: 0; }
+  12% { opacity: 0.48; }
+  62% { opacity: 0.34; }
+  100% { transform: translate(-43%, -86vh) scale(2.4) rotate(72deg); opacity: 0; }
 }
 
 @media (max-width: 900px) {
@@ -1338,7 +1492,8 @@ body {
 
   .rearview-mirror {
     min-width: 140px;
-    height: 6.4vh;
+    top: 9vh;
+    height: 6.8vh;
   }
 }
 
