@@ -289,7 +289,7 @@ export default function App() {
 
       {/* Floating Controls for Immersive Mode */}
       {isImmersive && (
-        <div className="fixed bottom-2 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-[440px] glass-panel p-2 rounded-lg shadow-2xl flex flex-col gap-2 opacity-20 hover:opacity-100 transition-opacity duration-300 immersive-controls">
+        <div className="fixed bottom-2 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-[440px] glass-panel p-2 rounded-lg shadow-2xl flex flex-col gap-2 opacity-10 hover:opacity-100 transition-opacity duration-300 immersive-controls">
            <Controls
               status={meter.status}
               onStart={meter.start}

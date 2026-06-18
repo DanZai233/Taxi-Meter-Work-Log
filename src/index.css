@@ -83,11 +83,9 @@ body {
   z-index: 70;
   pointer-events: none;
   background:
-    linear-gradient(rgba(255, 255, 255, 0.018) 50%, rgba(0, 0, 0, 0.02) 50%),
-    radial-gradient(ellipse at center, transparent 34%, rgba(0, 0, 0, 0.54) 100%);
-  background-size: 100% 3px, 100% 100%;
-  mix-blend-mode: screen;
-  opacity: 0.5;
+    radial-gradient(ellipse at 50% 45%, transparent 38%, rgba(0, 0, 0, 0.28) 78%, rgba(0, 0, 0, 0.5) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.34) 0 9%, transparent 25% 78%, rgba(0, 0, 0, 0.34) 100%);
+  opacity: 0.74;
 }
 
 .immersive-env.driving {
@@ -134,15 +132,15 @@ body {
   left: -10%;
   right: -10%;
   bottom: 0;
-  height: 23vh;
-  opacity: 0.82;
+  height: 28vh;
+  opacity: 0.62;
   background-image:
     radial-gradient(circle, rgba(255, 187, 96, 0.95) 0 1px, transparent 2px),
     radial-gradient(circle, rgba(106, 180, 255, 0.55) 0 1px, transparent 2px),
     radial-gradient(circle, rgba(255, 102, 72, 0.62) 0 1px, transparent 2px);
   background-size: 61px 31px, 89px 47px, 143px 59px;
   background-position: 0 15px, 27px 4px, 18px 30px;
-  mask-image: linear-gradient(to top, black 0 62%, transparent 100%);
+  mask-image: linear-gradient(to top, black 0 42%, rgba(0, 0, 0, 0.56) 62%, transparent 100%);
 }
 
 .city-skyline {
@@ -155,15 +153,15 @@ body {
 }
 
 .city-skyline-back {
-  height: 14vh;
-  opacity: 0.58;
+  height: 16vh;
+  opacity: 0.34;
   background-size: 420px 100%;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 100' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23080b12' d='M0 100V63h8V48h10v52h8V37h20v63h7V54h18v46h8V22h22v78h7V43h13v57h8V31h26v69h7V58h16v42z'/%3E%3C/svg%3E");
 }
 
 .city-skyline-front {
-  height: 18vh;
-  opacity: 0.92;
+  height: 16vh;
+  opacity: 0.48;
   background-size: 330px 100%;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 100' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23020406' d='M0 100V52h8V36h17v64h7V20h18v80h9V44h15v56h8V29h23v71h8V61h13v39h8V15h19v85z'/%3E%3C/svg%3E");
 }
@@ -178,13 +176,14 @@ body {
 
 .ground-plane {
   position: absolute;
-  inset: 38% 0 -8% 0;
+  inset: 53% 0 -12% 0;
   z-index: 2;
   overflow: hidden;
   perspective: 820px;
   background:
-    radial-gradient(ellipse at center top, rgba(255, 158, 71, 0.12), transparent 28%),
-    linear-gradient(180deg, rgba(22, 21, 22, 0.64), #030303 38%, #010101 100%);
+    radial-gradient(ellipse at center top, rgba(255, 158, 71, 0.06), transparent 38%),
+    linear-gradient(180deg, transparent 0 28%, rgba(12, 12, 13, 0.14) 54%, rgba(3, 3, 3, 0.54) 86%, #010101 100%);
+  mask-image: linear-gradient(to bottom, transparent 0 12%, rgba(0, 0, 0, 0.36) 30%, black 62%);
 }
 
 .ground-plane::before,
@@ -199,7 +198,7 @@ body {
     linear-gradient(90deg, rgba(0, 0, 0, 0.85), transparent);
   transform: rotateX(72deg) skewX(-14deg);
   transform-origin: top center;
-  opacity: 0.62;
+  opacity: 0.34;
 }
 
 .ground-plane::before {
@@ -213,21 +212,22 @@ body {
 
 .road {
   position: absolute;
-  top: -24%;
-  bottom: -30%;
+  top: -6%;
+  bottom: -40%;
   left: 50%;
-  width: min(88vw, 1120px);
-  transform: translateX(-50%) rotateX(68deg);
+  width: min(84vw, 1040px);
+  transform: translateX(-50%) rotateX(70deg);
   transform-origin: top center;
   overflow: hidden;
   background:
-    radial-gradient(ellipse at 50% 0, rgba(255, 178, 82, 0.16), transparent 32%),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.97) 0%, #111114 17%, #1c1c1d 50%, #111114 83%, rgba(0, 0, 0, 0.97) 100%);
-  border-left: 5px solid rgba(255, 255, 255, 0.08);
-  border-right: 5px solid rgba(255, 255, 255, 0.08);
+    radial-gradient(ellipse at 50% 0, rgba(255, 178, 82, 0.08), transparent 38%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.56) 0%, rgba(17, 17, 20, 0.52) 17%, rgba(29, 29, 30, 0.58) 50%, rgba(17, 17, 20, 0.52) 83%, rgba(0, 0, 0, 0.56) 100%);
+  border-left: 4px solid rgba(255, 255, 255, 0.05);
+  border-right: 4px solid rgba(255, 255, 255, 0.05);
   box-shadow:
-    inset 0 0 90px rgba(0, 0, 0, 0.8),
+    inset 0 0 90px rgba(0, 0, 0, 0.64),
     0 0 60px rgba(255, 153, 72, 0.05);
+  mask-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, 0.5) 14%, black 30% 100%);
 }
 
 .road::before,
@@ -597,8 +597,8 @@ body {
   z-index: 10;
   pointer-events: none;
   background:
-    radial-gradient(ellipse at center, transparent 22%, rgba(0, 0, 0, 0.18) 48%, rgba(0, 0, 0, 0.76) 100%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, transparent 24%, rgba(0, 0, 0, 0.25) 58%, rgba(0, 0, 0, 0.88) 100%);
+    radial-gradient(ellipse at center, transparent 28%, rgba(0, 0, 0, 0.14) 62%, rgba(0, 0, 0, 0.48) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0 14%, transparent 30% 68%, rgba(0, 0, 0, 0.54) 100%);
 }
 
 .car-interior-frame {
@@ -611,29 +611,29 @@ body {
 
 .windshield {
   position: absolute;
-  left: 10vw;
-  right: 10vw;
-  top: 9vh;
-  height: 55vh;
+  left: 9vw;
+  right: 9vw;
+  top: 8.2vh;
+  height: 57vh;
   z-index: 1;
   clip-path: polygon(7% 0, 93% 0, 100% 100%, 0 100%);
   border-radius: 0 0 42% 42% / 0 0 12% 12%;
   background:
-    linear-gradient(112deg, transparent 0 43%, rgba(255, 255, 255, 0.11) 44% 45%, transparent 48% 100%),
-    linear-gradient(68deg, transparent 0 60%, rgba(135, 197, 255, 0.07) 61% 62%, transparent 65% 100%),
-    radial-gradient(ellipse at 50% 18%, rgba(146, 190, 240, 0.08), transparent 40%);
+    linear-gradient(112deg, transparent 0 43%, rgba(255, 255, 255, 0.07) 44% 45%, transparent 48% 100%),
+    linear-gradient(68deg, transparent 0 60%, rgba(135, 197, 255, 0.045) 61% 62%, transparent 65% 100%),
+    radial-gradient(ellipse at 50% 18%, rgba(146, 190, 240, 0.055), transparent 42%);
   box-shadow:
-    inset 0 0 0 2px rgba(255, 255, 255, 0.03),
-    inset 0 -35px 60px rgba(0, 0, 0, 0.34);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.028),
+    inset 0 -22px 40px rgba(0, 0, 0, 0.24);
 }
 
 .windshield-sheen {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 70% 20%, rgba(255, 255, 255, 0.14), transparent 8%),
-    linear-gradient(120deg, transparent 0 18%, rgba(255, 255, 255, 0.07) 19% 20%, transparent 21% 100%);
-  opacity: 0.7;
+    radial-gradient(circle at 70% 20%, rgba(255, 255, 255, 0.1), transparent 8%),
+    linear-gradient(120deg, transparent 0 18%, rgba(255, 255, 255, 0.045) 19% 20%, transparent 21% 100%);
+  opacity: 0.56;
 }
 
 .glass-dust {
@@ -652,22 +652,22 @@ body {
   top: -3vh;
   left: -4vw;
   right: -4vw;
-  height: 17vh;
+  height: 14.5vh;
   z-index: 12;
   background:
-    radial-gradient(ellipse at 50% 110%, rgba(62, 55, 48, 0.52), transparent 48%),
-    linear-gradient(180deg, #060607 0%, #151313 56%, #0b0a0a 100%);
+    radial-gradient(ellipse at 50% 112%, rgba(76, 70, 64, 0.42), transparent 54%),
+    linear-gradient(180deg, #050505 0%, #161413 62%, #090808 100%);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.85);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.74);
 }
 
 .roof-console {
   position: absolute;
-  top: 2.1vh;
+  top: 1.7vh;
   left: 50%;
-  z-index: 16;
-  width: 10rem;
-  height: 3rem;
+  z-index: 20;
+  width: 9.2rem;
+  height: 2.8rem;
   transform: translateX(-50%);
   border-radius: 0 0 18px 18px;
   background: linear-gradient(180deg, #1c1a19, #080808);
@@ -696,31 +696,35 @@ body {
 
 .rearview-mirror {
   position: absolute;
-  top: 9.7vh;
+  top: 10.2vh;
   left: 50%;
-  z-index: 35;
-  width: min(21vw, 260px);
-  min-width: 182px;
-  height: 7.8vh;
-  transform: translateX(-50%) rotateX(-5deg);
-  border-radius: 42% 42% 48% 48% / 36% 36% 56% 56%;
-  background: linear-gradient(180deg, #242322, #090909 58%, #020202);
-  border: 4px solid #090909;
+  z-index: 55;
+  width: min(20vw, 250px);
+  min-width: 184px;
+  height: 6.9vh;
+  transform: translateX(-50%) rotateX(-4deg);
+  border-radius: 36% 36% 44% 44% / 40% 40% 50% 50%;
+  background:
+    linear-gradient(180deg, #1b1a19 0%, #070707 58%, #020202 100%);
+  border: 3px solid #050505;
   box-shadow:
-    0 8px 23px rgba(0, 0, 0, 0.84),
-    inset 0 2px 5px rgba(255, 255, 255, 0.16);
+    0 7px 18px rgba(0, 0, 0, 0.8),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.85);
 }
 
 .rearview-mirror::before {
   content: '';
   position: absolute;
-  top: -5.7vh;
+  top: -5.2vh;
   left: 50%;
-  z-index: -1;
-  width: 1rem;
-  height: 5.9vh;
+  z-index: 1;
+  width: 0.82rem;
+  height: 5.4vh;
   transform: translateX(-50%);
-  background: linear-gradient(90deg, #050505, #262423, #050505);
+  background:
+    linear-gradient(90deg, #030303, #2d2925 48%, #070707),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent);
   border-radius: 8px;
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.72);
 }
@@ -728,42 +732,43 @@ body {
 .rearview-mirror::after {
   content: '';
   position: absolute;
-  left: 50%;
-  bottom: -0.7vh;
-  width: 72%;
-  height: 1.2vh;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.75), transparent 72%);
-  opacity: 0.78;
+  left: 8%;
+  right: 8%;
+  bottom: 0.32rem;
+  height: 1px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  opacity: 0.55;
 }
 
 .mirror-glass {
   position: absolute;
-  inset: 9% 5%;
+  inset: 10% 6% 11%;
   overflow: hidden;
   border-radius: inherit;
   background:
-    radial-gradient(circle at 52% 62%, rgba(255, 52, 42, 0.88) 0 2px, transparent 4px),
-    radial-gradient(circle at 61% 62%, rgba(255, 52, 42, 0.78) 0 2px, transparent 4px),
-    repeating-linear-gradient(180deg, transparent 0 13px, rgba(255, 217, 145, 0.18) 13px 16px, transparent 16px 34px),
-    linear-gradient(180deg, #243044 0%, #111927 48%, #08090c 100%);
+    radial-gradient(circle at 47% 59%, rgba(255, 59, 45, 0.84) 0 2px, transparent 4px),
+    radial-gradient(circle at 56% 59%, rgba(255, 59, 45, 0.68) 0 2px, transparent 4px),
+    radial-gradient(circle at 68% 52%, rgba(255, 59, 45, 0.52) 0 1.5px, transparent 3px),
+    linear-gradient(108deg, rgba(255, 255, 255, 0.14) 0 13%, transparent 14% 100%),
+    radial-gradient(ellipse at 52% 78%, rgba(255, 205, 116, 0.12), transparent 42%),
+    linear-gradient(180deg, #273348 0%, #162134 52%, #070b12 100%);
   box-shadow:
-    inset 0 0 16px rgba(0, 0, 0, 0.78),
-    inset 0 0 0 1px rgba(138, 180, 222, 0.12);
+    inset 0 0 15px rgba(0, 0, 0, 0.72),
+    inset 0 0 0 1px rgba(160, 196, 225, 0.16);
 }
 
 .mirror-glass::before {
   content: '';
   position: absolute;
-  left: 18%;
-  top: 48%;
-  width: 64%;
-  height: 58%;
-  transform: perspective(90px) rotateX(58deg);
+  left: 17%;
+  right: 17%;
+  bottom: -5%;
+  height: 48%;
+  transform: perspective(120px) rotateX(57deg);
   background:
-    linear-gradient(90deg, transparent 0 44%, rgba(255, 205, 98, 0.75) 45% 48%, transparent 49% 100%),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+    repeating-linear-gradient(180deg, transparent 0 12px, rgba(255, 216, 140, 0.1) 12px 13px, transparent 13px 28px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
   mask-image: linear-gradient(to bottom, transparent 0, black 25%);
 }
 
@@ -808,13 +813,13 @@ body {
   right: -12vw;
   bottom: -7vh;
   z-index: 10;
-  height: 38vh;
-  border-radius: 48% 48% 0 0 / 18% 18% 0 0;
+  height: 39vh;
+  border-radius: 50% 50% 0 0 / 24% 24% 0 0;
   background:
-    radial-gradient(ellipse at 50% 0%, rgba(78, 69, 60, 0.34), transparent 36%),
+    radial-gradient(ellipse at 50% 2%, rgba(108, 96, 82, 0.28), transparent 38%),
     radial-gradient(ellipse at 34% 42%, rgba(245, 114, 38, 0.07), transparent 22%),
-    linear-gradient(180deg, #1b1918 0%, #111010 40%, #040404 100%);
-  border-top: 5px solid rgba(61, 57, 53, 0.8);
+    linear-gradient(180deg, rgba(30, 28, 26, 0.94) 0%, #111010 42%, #040404 100%);
+  border-top: 3px solid rgba(79, 72, 64, 0.58);
   box-shadow:
     inset 0 18px 52px rgba(255, 255, 255, 0.04),
     inset 0 -45px 90px rgba(0, 0, 0, 0.84),
@@ -1111,14 +1116,16 @@ body {
   position: absolute;
   left: -5vw;
   right: -5vw;
-  bottom: -11vh;
+  bottom: -13vh;
   z-index: 40;
-  height: 26vh;
-  border-radius: 46% 46% 0 0 / 35% 35% 0 0;
+  height: 24vh;
+  border-radius: 48% 48% 0 0 / 28% 28% 0 0;
   background:
-    radial-gradient(ellipse at 50% 0, rgba(255, 255, 255, 0.055), transparent 34%),
-    linear-gradient(180deg, #171514, #050505 72%);
-  box-shadow: inset 0 22px 45px rgba(255, 255, 255, 0.025), 0 -18px 60px rgba(0, 0, 0, 0.76);
+    radial-gradient(ellipse at 50% 2%, rgba(255, 255, 255, 0.045), transparent 36%),
+    linear-gradient(180deg, rgba(22, 20, 19, 0.92), #050505 72%);
+  box-shadow:
+    inset 0 18px 36px rgba(255, 255, 255, 0.022),
+    0 -10px 36px rgba(0, 0, 0, 0.58);
 }
 
 .rear-seat-foreground span {
@@ -1135,7 +1142,7 @@ body {
 
 .immersive-meter-container {
   position: absolute !important;
-  top: 64vh;
+  top: 63.5vh;
   left: 50%;
   z-index: 30 !important;
   width: 90vw !important;
@@ -1148,8 +1155,8 @@ body {
   background:
     linear-gradient(180deg, #121213, #060607) !important;
   box-shadow:
-    0 24px 0 #050505,
-    0 48px 95px rgba(0, 0, 0, 1),
+    0 16px 0 rgba(5, 5, 5, 0.88),
+    0 32px 70px rgba(0, 0, 0, 0.9),
     0 0 55px rgba(249, 115, 22, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
 }
