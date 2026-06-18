@@ -1,0 +1,6 @@
+{
+  "name": "Taxi Meter Work Log",
+  "description": "A retro taxi meter simulator for tracking work hours and calculating earnings based on monthly salary.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

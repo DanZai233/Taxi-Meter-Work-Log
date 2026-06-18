@@ -1,0 +1,375 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-mono: "Share Tech Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+body {
+  background-color: #09090b;
+  color: #f97316;
+  font-family: var(--font-mono);
+  overflow-x: hidden;
+}
+
+.led-shadow {
+  text-shadow: 0 0 20px rgba(249, 115, 22, 0.6);
+}
+
+.led-shadow-green {
+  text-shadow: 0 0 20px rgba(34, 197, 94, 0.6);
+}
+
+.led-shadow-yellow {
+  text-shadow: 0 0 20px rgba(234, 179, 8, 0.6);
+}
+
+.grid-overlay {
+  background-image: linear-gradient(rgba(249, 115, 22, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(249, 115, 22, 0.05) 1px, transparent 1px);
+  background-size: 4px 4px;
+}
+
+.glass-panel {
+  background: rgba(20, 20, 20, 0.8);
+  border: 2px solid #27272a;
+}
+
+.btn-active {
+  background: #ea580c;
+  color: #09090b;
+  box-shadow: 0 0 15px rgba(234, 88, 12, 0.4);
+}
+
+.btn-inactive {
+  background: #27272a;
+  border: 2px solid #3f3f46;
+  color: #a1a1aa;
+}
+
+.btn-danger {
+  background: rgba(127, 29, 29, 0.2);
+  border: 2px solid rgba(127, 29, 29, 0.5);
+  color: #ef4444;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #18181b; 
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #3f3f46; 
+  border-radius: 4px;
+}
+
+/* Immersive Environment */
+.immersive-env {
+  position: fixed;
+  inset: 0;
+  transition: opacity 1s ease;
+  z-index: 0;
+  background: #000;
+  overflow: hidden;
+}
+
+.immersive-env .sky {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to bottom, #010102 0%, #0a0a1a 100%);
+}
+
+.immersive-env .city-skyline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 15vh;
+  background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,100 L0,50 L5,50 L5,40 L15,40 L15,60 L20,60 L20,30 L35,30 L35,70 L45,70 L45,20 L60,20 L60,50 L70,50 L70,40 L85,40 L85,60 L95,60 L95,45 L100,45 L100,100 Z" fill="%23050505"/></svg>');
+  background-size: 300px 100%;
+  background-repeat: repeat-x;
+  filter: drop-shadow(0 0 10px rgba(234, 88, 12, 0.15));
+}
+
+.immersive-env.driving .city-skyline {
+  animation: moveSkyline 40s linear infinite;
+}
+
+.immersive-env .ground-plane {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: #050505;
+  perspective: 600px;
+}
+
+.immersive-env .road {
+  position: absolute;
+  bottom: -100px;
+  left: 50%;
+  width: 600px;
+  height: 200%;
+  transform: translateX(-50%) rotateX(80deg);
+  transform-origin: top center;
+  background: linear-gradient(90deg, #050505 0%, #111 20%, #151515 50%, #111 80%, #050505 100%);
+  border-left: 5px solid rgba(255, 255, 255, 0.05);
+  border-right: 5px solid rgba(255, 255, 255, 0.05);
+}
+
+.immersive-env .road-lines {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 10px;
+  height: 200%;
+  transform: translateX(-50%);
+  background-image: linear-gradient(to bottom, rgba(234, 88, 12, 0.5) 40%, transparent 40%);
+  background-size: 10px 150px;
+}
+
+.immersive-env.driving .road-lines {
+  animation: moveRoad 0.4s linear infinite;
+}
+
+@keyframes moveSkyline {
+  from { background-position: 0 0; }
+  to { background-position: -300px 0; }
+}
+
+@keyframes moveRoad {
+  from { transform: translateX(-50%) translateY(-150px); }
+  to { transform: translateX(-50%) translateY(0px); }
+}
+
+/* Lights passing by */
+.passing-lights {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  perspective: 800px;
+  z-index: 2;
+}
+
+.passing-light {
+  position: absolute;
+  top: 40%;
+  left: -20%;
+  width: 20%;
+  height: 20%;
+  background: radial-gradient(circle, rgba(234, 88, 12, 0.4) 0%, transparent 70%);
+  opacity: 0;
+}
+
+.immersive-env.driving .passing-light {
+  animation: passLight 2s linear infinite;
+}
+
+.passing-light:nth-child(2) {
+  animation-delay: 1s;
+  left: 100%;
+  background: radial-gradient(circle, rgba(255, 200, 100, 0.3) 0%, transparent 70%);
+}
+
+@keyframes passLight {
+  0% { transform: translateZ(-1000px) translateX(0); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateZ(500px) translateX(300px); opacity: 0; }
+}
+
+/* --- Car Interior Structural Frame --- */
+
+.car-interior-overlay {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%),
+    linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 15%, transparent 60%, rgba(0,0,0,0.85) 100%);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.car-interior-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.car-roof {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 12vh;
+  background: linear-gradient(to bottom, #111, #1a1a1a);
+  border-bottom: 2px solid #222;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+}
+
+.car-pillar-left, .car-pillar-right {
+  position: absolute;
+  top: 0;
+  bottom: 20vh;
+  width: 12vw;
+  background: linear-gradient(to right, #111, #1e1e1e);
+}
+
+.car-pillar-left {
+  left: -2vw;
+  transform-origin: top left;
+  transform: skewX(-15deg);
+  border-right: 2px solid #333;
+  box-shadow: 10px 0 20px rgba(0,0,0,0.7);
+}
+
+.car-pillar-right {
+  right: -2vw;
+  transform-origin: top right;
+  transform: skewX(15deg);
+  border-left: 2px solid #333;
+  box-shadow: -10px 0 20px rgba(0,0,0,0.7);
+  background: linear-gradient(to left, #111, #1e1e1e);
+}
+
+.car-dashboard {
+  position: absolute;
+  bottom: 0;
+  left: -10vw;
+  right: -10vw;
+  height: 45vh;
+  background: linear-gradient(to bottom, #1a1a1a, #0a0a0a);
+  border-top: 5px solid #2a2a2a;
+  border-radius: 40% 40% 0 0 / 15px 15px 0 0;
+  box-shadow: inset 0 20px 50px rgba(0,0,0,0.8);
+}
+
+.car-center-console {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 35vw;
+  max-width: 450px;
+  height: 35vh;
+  background: #151515;
+  border-radius: 20px 20px 0 0;
+  border-top: 3px solid #2a2a2a;
+  box-shadow: 
+    -20px 0 30px rgba(0,0,0,0.8),
+    20px 0 30px rgba(0,0,0,0.8),
+    inset 0 10px 20px rgba(0,0,0,0.4);
+}
+
+/* Front Seats silhouette */
+.front-seat-left, .front-seat-right {
+  position: absolute;
+  bottom: -5vh;
+  width: 35vw;
+  max-width: 400px;
+  height: 65vh;
+  background: linear-gradient(to bottom, #181818, #0a0a0a);
+  border-radius: 80px 80px 10px 10px;
+  z-index: 25;
+  box-shadow: 
+    inset -10px 20px 50px rgba(255,255,255,0.03),
+    0 0 50px rgba(0,0,0,0.8);
+  border-top: 2px solid #252525;
+}
+
+.front-seat-left { left: 2vw; }
+.front-seat-right { right: 2vw; box-shadow: inset 10px 20px 50px rgba(255,255,255,0.03), 0 0 50px rgba(0,0,0,0.8); }
+
+.headrest {
+  position: absolute;
+  top: -110px;
+  left: 15%;
+  width: 70%;
+  height: 130px;
+  background: linear-gradient(to bottom, #181818, #0c0c0c);
+  border-radius: 30px;
+  box-shadow: inset 0 -10px 20px rgba(0,0,0,0.4);
+  border-top: 2px solid #252525;
+}
+
+.headrest-poles {
+  position: absolute;
+  bottom: -50px;
+  left: 25%;
+  width: 50%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  z-index: -1;
+}
+
+.headrest-pole {
+  width: 12px;
+  height: 100%;
+  background: linear-gradient(to right, #222, #555, #111);
+}
+
+/* The meter device in immersive mode */
+.immersive-meter-container {
+  position: absolute !important;
+  top: 55vh;
+  left: 50%;
+  width: 90vw !important;
+  max-width: 1024px !important;
+  transform: translateX(-50%) translateY(-50%) scale(0.35) perspective(1000px) rotateX(15deg) !important;
+  border: 16px solid #1a1a1c !important;
+  border-radius: 24px !important;
+  background: #09090b !important;
+  box-shadow: 
+    0 40px 100px rgba(0,0,0,1), 
+    0 0 60px rgba(249,115,22,0.2) !important;
+  z-index: 30 !important; /* Above dashboard, between seats */
+}
+
+.immersive-meter-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* Smoke effect */
+.smoke-container {
+  position: absolute;
+  bottom: -20vh;
+  left: 50%;
+  width: 100vw;
+  height: 120vh;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 22; /* Put it behind the seats but in front of window/dashboard */
+}
+
+.smoke-particle {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 20vw;
+  height: 20vw;
+  background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 60%);
+  border-radius: 50%;
+  filter: blur(15px);
+  animation: floatSmoke 8s infinite linear;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+@keyframes floatSmoke {
+  0% { transform: translate(-50%, 0) scale(1) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.8; }
+  70% { opacity: 0.5; }
+  100% { transform: translate(-50%, -100vh) scale(3) rotate(90deg); opacity: 0; }
+}
+

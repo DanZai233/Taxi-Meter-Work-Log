@@ -1,0 +1,259 @@
+import React, { useState, useEffect } from 'react';
+import { useTaxiMeter } from './hooks/useTaxiMeter';
+import { MeterDisplay } from './components/MeterDisplay';
+import { Controls } from './components/Controls';
+import { SettingsModal } from './components/SettingsModal';
+import { FastForwardModal } from './components/FastForwardModal';
+import { StatsModal } from './components/StatsModal';
+import { loadDailyStats, saveDailyStat } from './lib/storage';
+import { DailyStat } from './types';
+import { cn } from './lib/utils';
+import { Car, Flame } from 'lucide-react';
+
+export default function App() {
+  const [showSettings, setShowSettings] = useState(false);
+  const [showStats, setShowStats] = useState(false);
+  const [showFastForward, setShowFastForward] = useState(false);
+  const [isImmersive, setIsImmersive] = useState(false);
+  
+  const [isSmoking, setIsSmoking] = useState(false);
+  const [smokingTimeLeft, setSmokingTimeLeft] = useState(0);
+  
+  const [dailyStats, setDailyStats] = useState<DailyStat[]>([]);
+
+  const meter = useTaxiMeter();
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isSmoking && smokingTimeLeft > 0) {
+      interval = setInterval(() => {
+        setSmokingTimeLeft(prev => prev - 1);
+      }, 1000);
+    } else if (smokingTimeLeft === 0 && isSmoking) {
+      setIsSmoking(false);
+    }
+    return () => clearInterval(interval);
+  }, [isSmoking, smokingTimeLeft]);
+
+  const handleSmoke = () => {
+    if (!isSmoking) {
+      setIsSmoking(true);
+      setSmokingTimeLeft(120); // 2 minutes
+    } else {
+      setIsSmoking(false);
+      setSmokingTimeLeft(0);
+    }
+  };
+
+  const formatTime = (sec: number) => {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return `${m}:${s.toString().padStart(2, '0')}`;
+  };
+
+  useEffect(() => {
+    setDailyStats(loadDailyStats());
+  }, []);
+
+  const handleStop = () => {
+    if (meter.data.sessionSeconds > 0) {
+      const today = new Date().toISOString().split('T')[0];
+      const newStat: DailyStat = {
+        date: today,
+        totalEarnings: meter.data.exactEarnings,
+        totalTimeSeconds: meter.data.sessionSeconds,
+        driveTimeSeconds: meter.data.driveSeconds,
+        waitTimeSeconds: meter.data.waitSeconds,
+        distanceKm: meter.data.distanceKm,
+      };
+      saveDailyStat(newStat);
+      setDailyStats(loadDailyStats());
+      meter.reset();
+    } else {
+      meter.stop();
+    }
+  };
+
+  const handleFastForwardConfirm = (pastDate: Date) => {
+    meter.fastForwardToNow(pastDate);
+    setShowFastForward(false);
+  };
+
+  return (
+    <div className={cn(
+      "min-h-screen bg-zinc-950 text-orange-500 font-mono flex flex-col items-center overflow-x-hidden relative transition-colors duration-1000",
+      isImmersive ? "bg-black p-0 justify-center" : "py-4 px-2 sm:p-8"
+    )}>
+      
+      {/* Immersive Background */}
+      <div className={cn("immersive-env", isImmersive ? "opacity-100" : "opacity-0 pointer-events-none", meter.status === 'DRIVING' ? 'driving' : '')}>
+        <div className="sky"><div className="city-skyline"></div></div>
+        <div className="passing-lights">
+          <div className="passing-light"></div>
+          <div className="passing-light" style={{ animationDelay: '1s', left: '100%', transform: 'scaleX(-1)' }}></div>
+        </div>
+        <div className="ground-plane"><div className="road"><div className="road-lines"></div></div></div>
+        <div className="car-interior-overlay"></div>
+        
+        <div className="car-interior-frame">
+          <div className="car-roof"></div>
+          <div className="car-pillar-left"></div>
+          <div className="car-pillar-right"></div>
+          
+          <div className="car-dashboard"></div>
+          <div className="car-center-console"></div>
+          
+          <div className="front-seat-left">
+            <div className="headrest"><div className="headrest-poles"><div className="headrest-pole"></div><div className="headrest-pole"></div></div></div>
+          </div>
+          <div className="front-seat-right">
+            <div className="headrest"><div className="headrest-poles"><div className="headrest-pole"></div><div className="headrest-pole"></div></div></div>
+          </div>
+        </div>
+        
+        {isSmoking && (
+          <div className="smoke-container">
+            {/* Glowing Ember */}
+            <div className="absolute bottom-[20vh] left-[45%] w-2 h-2 rounded-full bg-red-500 shadow-[0_0_15px_5px_rgba(239,68,68,0.6)] animate-pulse z-20"></div>
+            
+            <div className="smoke-particle" style={{ animationDelay: '0s' }}></div>
+            <div className="smoke-particle" style={{ animationDelay: '2.5s', left: '40%' }}></div>
+            <div className="smoke-particle" style={{ animationDelay: '5s', left: '60%' }}></div>
+          </div>
+        )}
+      </div>
+
+      {/* Toggles */}
+      <div className="fixed top-4 right-4 z-50 flex flex-col items-end gap-2">
+        <button 
+          onClick={() => setIsImmersive(!isImmersive)} 
+          className="glass-panel text-orange-500 px-4 py-3 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-zinc-800 transition-colors shadow-2xl"
+        >
+          <Car className="w-5 h-5" />
+          <span className="hidden sm:inline">{isImmersive ? "EXIT SIMULATION" : "ENTER SIMULATION"}</span>
+        </button>
+        
+        {isImmersive && (
+          <button 
+            onClick={handleSmoke} 
+            className={cn("glass-panel px-4 py-3 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-zinc-800 transition-colors shadow-2xl",
+              isSmoking ? "text-red-500 border-red-900/50" : "text-zinc-500 border-zinc-800"
+            )}
+          >
+            <Flame className="w-5 h-5" />
+            <span className="hidden sm:inline">
+              {isSmoking ? `SMOKING (${formatTime(smokingTimeLeft)})` : "HAVE A SMOKE"}
+            </span>
+          </button>
+        )}
+      </div>
+
+      {/* Main Container */}
+      <div className={cn(
+        "w-full max-w-5xl flex-1 flex flex-col shadow-2xl bg-zinc-950 rounded-xl overflow-hidden z-30 transition-all duration-1000 ease-in-out origin-center",
+        isImmersive ? "immersive-meter-container h-auto max-w-4xl border-none" : "border-[12px] border-zinc-900 relative"
+      )}>
+        
+        {/* Header */}
+        <div className={cn("flex justify-between items-center border-b-2 border-orange-900/50 transition-all duration-500", isImmersive ? "p-6 pb-4" : "p-8 pb-4 mb-6")}>
+          <div className="flex flex-col">
+            <span className="text-xs opacity-50 uppercase tracking-widest">Unit Identity</span>
+            <span className={cn("font-bold transition-all", isImmersive ? "text-lg md:text-xl" : "text-xl")}>TX-7000 RETRO-METER</span>
+          </div>
+          <div className="text-right">
+            <span className="text-xs opacity-50 uppercase tracking-widest">Shift Status</span>
+            {meter.status === 'IDLE' && <span className={cn("block text-zinc-500 font-bold", isImmersive ? "text-lg md:text-xl" : "text-xl")}>○ OFF DUTY</span>}
+            {meter.status === 'DRIVING' && <span className={cn("block text-green-500 font-bold led-shadow-green", isImmersive ? "text-lg md:text-xl" : "text-xl")}>● IN SERVICE</span>}
+            {meter.status === 'WAITING' && <span className={cn("block text-yellow-500 font-bold led-shadow-yellow", isImmersive ? "text-lg md:text-xl" : "text-xl")}>● WAITING</span>}
+          </div>
+        </div>
+
+        {/* Content Body */}
+        <div className={cn("flex-1 grid gap-6 p-4 pt-0 transition-all duration-500", isImmersive ? "grid-cols-1 p-6 sm:p-8" : "grid-cols-1 lg:grid-cols-12 sm:p-8")}>
+          <div className={cn("flex flex-col gap-6 h-full", isImmersive ? "col-span-1" : "col-span-1 lg:col-span-8")}>
+            <MeterDisplay
+              fare={meter.data.displayedEarnings}
+              distance={meter.data.distanceKm}
+              waitTime={meter.data.waitSeconds}
+              status={meter.status}
+            />
+          </div>
+
+          <div className={cn("flex flex-col gap-4", isImmersive ? "hidden" : "col-span-1 lg:col-span-4")}>
+            <div className="glass-panel relative rounded-lg p-6">
+               <span className="text-xs opacity-50 uppercase mb-4 block">Configuration / 设置</span>
+               <div className="space-y-4">
+                 <div className="flex flex-col">
+                   <label className="text-[10px] opacity-70 mb-1">MONTHLY TARGET / 月薪目标</label>
+                   <div className="relative">
+                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-orange-500">¥</span>
+                     <input type="text" value={meter.settings.monthlySalary} className="w-full bg-zinc-900 border border-zinc-700 rounded p-2 pl-8 focus:outline-none text-lg text-orange-400 border-none" readOnly />
+                   </div>
+                 </div>
+                 <div className="flex flex-col">
+                   <label className="text-[10px] opacity-70 mb-1">BASE RATE / 每秒费率</label>
+                   <input type="text" value={`¥ ${meter.earningRatePerSecond.toFixed(4)} / SEC`} className="w-full bg-zinc-900 border border-zinc-700 rounded p-2 focus:outline-none text-sm text-orange-400 border-none" readOnly />
+                 </div>
+               </div>
+            </div>
+
+            <Controls
+              status={meter.status}
+              onStart={meter.start}
+              onWait={meter.setWaiting}
+              onStop={handleStop}
+              onOpenSettings={() => setShowSettings(true)}
+              onOpenStats={() => setShowStats(true)}
+              onOpenFastForward={() => setShowFastForward(true)}
+            />
+          </div>
+        </div>
+        
+        {!isImmersive && (
+          <div className="mt-4 flex flex-col sm:flex-row justify-between items-center text-[10px] opacity-40 font-bold uppercase tracking-widest p-8 pt-0 gap-2 text-center">
+            <span>Base Rate: ¥ {meter.earningRatePerSecond.toFixed(4)} / Sec</span>
+            <span>GPS Signal: Locked</span>
+            <span>V 4.2.0-STABLE</span>
+          </div>
+        )}
+      </div>
+
+      {/* Floating Controls for Immersive Mode */}
+      {isImmersive && (
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-[500px] glass-panel p-3 rounded-xl shadow-2xl flex flex-col gap-2 opacity-50 hover:opacity-100 transition-opacity duration-300">
+           <Controls
+              status={meter.status}
+              onStart={meter.start}
+              onWait={meter.setWaiting}
+              onStop={handleStop}
+              onOpenSettings={() => setShowSettings(true)}
+              onOpenStats={() => setShowStats(true)}
+              onOpenFastForward={() => setShowFastForward(true)}
+            />
+        </div>
+      )}
+
+      {showSettings && (
+        <SettingsModal
+          settings={meter.settings}
+          onClose={() => setShowSettings(false)}
+          onUpdate={meter.updateSettings}
+        />
+      )}
+
+      {showFastForward && (
+        <FastForwardModal
+          onClose={() => setShowFastForward(false)}
+          onConfirm={handleFastForwardConfirm}
+        />
+      )}
+
+      {showStats && (
+        <StatsModal
+          stats={dailyStats}
+          onClose={() => setShowStats(false)}
+        />
+      )}
+    </div>
+  );
+}
